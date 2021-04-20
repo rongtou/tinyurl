@@ -15,5 +15,6 @@
 # vendor/
 
 .idea
+.air.toml
 tmp
 tinyurl
