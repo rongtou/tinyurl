@@ -6,6 +6,7 @@ import (
 	"github.com/didi/gendry/manager"
 	"github.com/didi/gendry/scanner"
 	_ "github.com/go-sql-driver/mysql"
+	"github.com/spf13/viper"
 	"log"
 	"time"
 	"tinyurl/model"
@@ -14,8 +15,13 @@ import (
 var db *sql.DB
 
 func init() {
+	host := viper.GetString("database.host")
+	port := viper.GetInt("database.port")
+	user := viper.GetString("database.user")
+	password := viper.GetString("database.password")
+	dbName := viper.GetString("database.dbname")
 	db1, err := manager.
-		New("tinyurl", "root", "123456", "localhost").
+		New(dbName, user, password, host).
 		Set(
 			manager.SetCharset("utf8"),
 			manager.SetAllowCleartextPasswords(true),
@@ -23,7 +29,7 @@ func init() {
 			manager.SetTimeout(1*time.Second),
 			manager.SetReadTimeout(1*time.Second),
 			manager.SetParseTime(true),
-		).Port(3306).Open(true)
+		).Port(port).Open(true)
 	if err != nil {
 		log.Fatalln(err)
 	}

@@ -7,4 +7,3 @@ Todo
 - testing
 - Hashid length
 - simple attack defense
-- config

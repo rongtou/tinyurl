@@ -3,6 +3,7 @@ package main
 import (
 	"github.com/gin-gonic/gin"
 	"log"
+	_ "tinyurl/config"
 	"tinyurl/handler"
 )
 
