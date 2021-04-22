@@ -2,8 +2,6 @@
 
 Todo
 
-- Hashid length
-- testing
 - Logging
 - Cache
 - benchmark
