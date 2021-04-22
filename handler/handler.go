@@ -51,7 +51,7 @@ func RedirectLink(c *gin.Context) {
 	urlMap := db.GetLinkByShort(shortUrl)
 
 	if urlMap == nil {
-		c.String(http.StatusNotFound, "404 page not found 2")
+		c.String(http.StatusNotFound, "404 page not found")
 		return
 	}
 

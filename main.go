@@ -22,7 +22,11 @@ func main() {
 	r.POST("/link/create", handler.CreateLink)
 	r.GET("/l/:link", handler.RedirectLink)
 
-	err := r.Run("localhost:8080")
+	addr := ":" + viper.GetString("base.port")
+	if mode == gin.DebugMode {
+		addr = "localhost:" + viper.GetString("base.port")
+	}
+	err := r.Run(addr)
 	if err != nil {
 		log.Fatalln(err)
 	}
