@@ -3,6 +3,7 @@ package cache
 import (
 	"context"
 	"github.com/go-redis/redis/v8"
+	"github.com/spf13/viper"
 	"log"
 	"time"
 )
@@ -16,9 +17,9 @@ type Cache struct {
 
 func Init() {
 	rdb := redis.NewClient(&redis.Options{
-		Addr:     "localhost:6379",
-		Password: "123456",
-		DB:       0,
+		Addr:     viper.GetString("cache.addr"),
+		Password: viper.GetString("cache.password"),
+		DB:       viper.GetInt("cache.db"),
 	})
 	_cache = &Cache{
 		ctx: context.Background(),

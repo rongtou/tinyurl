@@ -9,3 +9,8 @@ port = 3306
 user = "dbuser"
 password = "dbpass"
 dbname = "tinyurl"
+
+[cache]
+addr = "localhost:6379"
+password = "XXXXX"
+db = 0
