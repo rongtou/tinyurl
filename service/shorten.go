@@ -9,7 +9,7 @@ type Encoder interface {
 }
 
 func GenToken() string {
-	enc := NewHashId()
+	enc := NewHashId(SetSalt("5ABt4tlmAAueED9"))
 	token, _ := enc.Encode(NewSnowflakeIdGen().GetID())
 	return token
 }
