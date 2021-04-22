@@ -1,6 +1,7 @@
 package main
 
 import (
+	"github.com/gin-contrib/location"
 	"github.com/gin-gonic/gin"
 	"github.com/spf13/viper"
 	"log"
@@ -16,6 +17,7 @@ func main() {
 	gin.SetMode(mode)
 
 	r := gin.Default()
+	r.Use(location.Default())
 
 	r.POST("/link/create", handler.CreateLink)
 	r.GET("/l/:link", handler.RedirectLink)

@@ -6,6 +6,7 @@ require (
 	github.com/bwmarrin/snowflake v0.3.0
 	github.com/didi/gendry v1.7.0
 	github.com/fsnotify/fsnotify v1.4.9 // indirect
+	github.com/gin-contrib/location v0.0.2
 	github.com/gin-gonic/gin v1.7.1
 	github.com/go-sql-driver/mysql v1.6.0
 	github.com/pelletier/go-toml v1.9.0 // indirect

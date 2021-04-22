@@ -1,6 +1,8 @@
 package handler
 
 import (
+	"fmt"
+	"github.com/gin-contrib/location"
 	"github.com/gin-gonic/gin"
 	"log"
 	"net/http"
@@ -16,7 +18,7 @@ func CreateLink(c *gin.Context) {
 
 	urlMap := &model.TinyUrlMap{}
 	urlMap.OriginUrl = link
-	urlMap.ShortUrl = service.GenToken()[:6]
+	urlMap.ShortUrl = service.GenToken()
 	urlMap.CreatedTime = time.Now()
 
 	err := db.CreateLink(urlMap)
@@ -29,9 +31,13 @@ func CreateLink(c *gin.Context) {
 		return
 	}
 
+	url := location.Get(c)
 	c.JSON(http.StatusOK, gin.H{
 		"code":    0,
 		"message": "succ",
+		"data": gin.H{
+			"short_url": fmt.Sprintf("%s://%s/l/%s", url.Scheme, url.Host, urlMap.ShortUrl),
+		},
 	})
 }
 
