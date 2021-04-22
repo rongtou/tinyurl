@@ -5,6 +5,7 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/spf13/viper"
 	"log"
+	"tinyurl/cache"
 	_ "tinyurl/config"
 	"tinyurl/handler"
 )
@@ -15,6 +16,8 @@ func main() {
 		mode = gin.DebugMode
 	}
 	gin.SetMode(mode)
+
+	cache.Init()
 
 	r := gin.Default()
 	r.Use(location.Default())

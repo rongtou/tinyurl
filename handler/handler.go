@@ -7,6 +7,7 @@ import (
 	"log"
 	"net/http"
 	"time"
+	"tinyurl/cache"
 	"tinyurl/db"
 	"tinyurl/model"
 	"tinyurl/service"
@@ -42,18 +43,32 @@ func CreateLink(c *gin.Context) {
 }
 
 func RedirectLink(c *gin.Context) {
-	//读取cache
-	//有则跳转
-	//没有则查询数据库
-	//还没有就设置null的过期，并返回404
 	shortUrl := c.Param("link")
 	log.Println("short link : ", shortUrl)
-	urlMap := db.GetLinkByShort(shortUrl)
+
+	var urlMap *model.TinyUrlMap
+	cacheUrl := cache.Instance().Get(cachekey(shortUrl))
+	log.Println("cache origin : ", cacheUrl)
+
+	if cacheUrl != "" {
+		urlMap = &model.TinyUrlMap{
+			OriginUrl: cacheUrl,
+		}
+	} else {
+		urlMap = db.GetLinkByShort(shortUrl)
+	}
 
 	if urlMap == nil {
 		c.String(http.StatusNotFound, "404 page not found")
 		return
 	}
 
+	if cacheUrl == "" {
+		cache.Instance().Set(cachekey(shortUrl), urlMap.OriginUrl, 24*time.Hour)
+	}
 	c.Redirect(http.StatusFound, urlMap.OriginUrl)
+}
+
+func cachekey(token string) string {
+	return "tinyurl_token_" + token
 }
