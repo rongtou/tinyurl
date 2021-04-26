@@ -31,6 +31,10 @@ func Instance() *Cache {
 	return _cache
 }
 
+func (c *Cache) GetClient() *redis.Client {
+	return c.rdb
+}
+
 func (c *Cache) Get(key string) string {
 	log.Println("key : ", key)
 	val, err := c.rdb.Get(c.ctx, key).Result()

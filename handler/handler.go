@@ -7,6 +7,7 @@ import (
 	"log"
 	"net/http"
 	"time"
+	"tinyurl/bf"
 	"tinyurl/cache"
 	"tinyurl/db"
 	"tinyurl/model"
@@ -46,27 +47,32 @@ func RedirectLink(c *gin.Context) {
 	shortUrl := c.Param("link")
 	log.Println("short link : ", shortUrl)
 
-	var urlMap *model.TinyUrlMap
-	cacheUrl := cache.Instance().Get(cachekey(shortUrl))
-	log.Println("cache origin : ", cacheUrl)
+	if bf.Instance().ExistString(shortUrl) {
+		var urlMap *model.TinyUrlMap
+		cacheUrl := cache.Instance().Get(cachekey(shortUrl))
+		log.Println("cache origin : ", cacheUrl)
 
-	if cacheUrl != "" {
-		urlMap = &model.TinyUrlMap{
-			OriginUrl: cacheUrl,
+		if cacheUrl != "" {
+			urlMap = &model.TinyUrlMap{
+				OriginUrl: cacheUrl,
+			}
+		} else {
+			urlMap = db.GetLinkByShort(shortUrl)
 		}
+
+		if urlMap == nil {
+			c.String(http.StatusNotFound, "404 page not found")
+			return
+		}
+
+		if cacheUrl == "" {
+			cache.Instance().Set(cachekey(shortUrl), urlMap.OriginUrl, 24*time.Hour)
+		}
+		c.Redirect(http.StatusFound, urlMap.OriginUrl)
 	} else {
-		urlMap = db.GetLinkByShort(shortUrl)
-	}
-
-	if urlMap == nil {
 		c.String(http.StatusNotFound, "404 page not found")
-		return
 	}
 
-	if cacheUrl == "" {
-		cache.Instance().Set(cachekey(shortUrl), urlMap.OriginUrl, 24*time.Hour)
-	}
-	c.Redirect(http.StatusFound, urlMap.OriginUrl)
 }
 
 func cachekey(token string) string {
