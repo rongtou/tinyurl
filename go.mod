@@ -10,6 +10,7 @@ require (
 	github.com/go-redis/redis/v8 v8.8.2
 	github.com/go-sql-driver/mysql v1.6.0
 	github.com/pelletier/go-toml v1.9.0 // indirect
+	github.com/spaolacci/murmur3 v0.0.0-20180118202830-f09979ecbc72
 	github.com/spf13/viper v1.7.1
 	golang.org/x/sys v0.0.0-20210420072515-93ed5bcd2bfe // indirect
 )
