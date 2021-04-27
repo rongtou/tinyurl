@@ -7,13 +7,14 @@ import (
 	"log"
 	"tinyurl/bf"
 	"tinyurl/cache"
+	"tinyurl/config"
 	_ "tinyurl/config"
 	"tinyurl/handler"
 )
 
 func main() {
 	mode := gin.ReleaseMode
-	if viper.GetBool("base.debug") {
+	if config.Get().Base.Debug {
 		mode = gin.DebugMode
 	}
 	gin.SetMode(mode)

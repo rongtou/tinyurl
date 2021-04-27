@@ -2,7 +2,6 @@ package bloomfilter
 
 import (
 	"github.com/spaolacci/murmur3"
-	"log"
 	"sync"
 )
 
@@ -35,7 +34,6 @@ func (f *BloomFilter) Put(data []byte) {
 	defer f.lock.Unlock()
 
 	locs := f.locations(data)
-	log.Println(locs)
 	f.storage.Store(locs)
 	f.n++
 }

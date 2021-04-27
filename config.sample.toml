@@ -1,16 +1,16 @@
 
 [base]
-debug = true
-port = 8080
+    debug = true
+    port = 8080
 
 [database]
-host = "localhost"
-port = 3306
-user = "dbuser"
-password = "dbpass"
-dbname = "tinyurl"
+    host = "localhost"
+    port = 3306
+    user = "dbuser"
+    password = "dbpass"
+    dbname = "tinyurl"
 
-[cache]
-addr = "localhost:6379"
-password = "XXXXX"
-db = 0
+[redis]
+    addr = "localhost:6379"
+    password = "XXXXX"
+    db = 0
